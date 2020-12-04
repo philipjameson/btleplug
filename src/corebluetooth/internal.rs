@@ -131,8 +131,10 @@ impl CBPeripheral {
 
     pub fn set_characteristics(&mut self, characteristics: HashMap<Uuid, StrongPtr>) {
         for (c_uuid, c_obj) in characteristics {
-            self.characteristics
-                .insert(c_uuid, CBCharacteristic::new(c_obj));
+            if !self.characteristics.contains_key(&c_uuid) {
+                self.characteristics
+                    .insert(c_uuid, CBCharacteristic::new(c_obj));
+            }
         }
         // It's time for QUESTIONABLE ASSUMPTIONS.
         //
